@@ -1,0 +1,37 @@
+### JAVA 9
+# export JAVA_HOME=~/code/_not_mine/jdk-9
+# export PATH=$JAVA_HOME/bin:$PATH
+
+PATH="$GOPATH/bin:$PATH"
+export GOPATH=$HOME/go
+
+alias cls="clear"
+alias tmux="tmux -2"
+alias fbm="sudo -H fb-messenger-cli"
+alias tx="tmux attach"
+alias lock="tmux lock-session"
+alias py3="python3"
+alias py="py3"
+alias todo="todoist --color"
+alias calm="gcalcli calm"
+alias agenda="gcalcli agenda $(date +'%Y%m%d') $(date +'%Y%m%d' --date '1 month')"
+alias spip="sudo -H pip3"
+alias spipi="spip install"
+alias spipu="spip uninstall"
+
+mkcdir () {
+  mkdir -p -- "$1" &&
+  cd -P -- "$1"
+}
+
+inst () {
+  sudo apt-get install "$1"
+}
+
+uninst () {
+  sudo apt-get purge "$1"
+}
+
+cal () {
+  gcalcli calw ${1-"2"}
+}

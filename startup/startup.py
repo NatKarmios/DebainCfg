@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 import re
 import subprocess
 
+AGENDA = False
+
 now = datetime.now()
 nextMonth = now + timedelta(days=30)
 
@@ -52,20 +54,25 @@ with open("banner.txt", "r+") as f:
     for banner_line in f.read().split("\n"):
         messages.append(map_banner_line(banner_line, yellow, white))
 
-events_raw = subprocess.check_output(['gcalcli', 'agenda', now.strftime("%Y%m%d"), nextMonth.strftime("%Y%m%d")]).decode()
+def get_events():
+    events_raw = subprocess.check_output(['gcalcli', 'agenda', now.strftime("%Y%m%d"), nextMonth.strftime("%Y%m%d")]).decode()
 
-events = list(map(lambda event: red("│  ")+event, 
-    filter(lambda event: strip_escapes(event).strip()!="" and "\x1b[0;35m" not in event, 
-        events_raw.split("\n"))))
-events_length = max(map(lambda event: len(strip_escapes(event)), events))
+    _events = list(map(lambda event: red("│  ")+event, 
+        filter(lambda event: strip_escapes(event).strip()!="" and "\x1b[0;35m" not in event, 
+            events_raw.split("\n"))))
+    _events_length = max(map(lambda event: len(strip_escapes(event)), events))
+    return _events, _events_length
 
 
 messages.append("Hi there, {}!".format(red(os.environ["USER"].title())))
 messages.append("")
-messages.append(green("Upcoming events:"))
-for event in events:
-    messages.append(left_align(event, events_length))
-messages.append(white(""))
+
+if AGENDA:
+    messages.append(green("Upcoming events:"))
+    events, events_length = get_events()
+    for event in events:
+        messages.append(left_align(event, events_length))
+    messages.append(white(""))
 
 append_all((
   "Today is "+ blue("{} the {} of {}".format(now.strftime("%A"), ordinal(now.day), now.strftime("%B"))) + ".",

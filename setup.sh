@@ -2,6 +2,10 @@ echo "Hey there! Let's get set up!"
 sudo echo > /dev/null
 
 echo
+echo "Making sure submodules are cloned..."
+git submodule update --init
+
+echo
 echo "Installing packages from apt-get..."
 sudo apt-get update -y
 sudo apt-get upgrade -y

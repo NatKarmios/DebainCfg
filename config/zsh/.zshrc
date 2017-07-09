@@ -86,4 +86,5 @@ source $ZSH/oh-my-zsh.sh
 
 ### NAT'S CUSTOMS
 source $ZDOTDIR/aliases
+cd ~
 

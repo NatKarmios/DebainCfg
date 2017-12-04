@@ -5,6 +5,7 @@
 PATH="$GOPATH/bin:$PATH"
 export GOPATH=$HOME/go
 
+alias fatom="atom --foreground"
 alias cls="clear"
 alias tmux="tmux -2"
 alias fbm="sudo -H fb-messenger-cli"

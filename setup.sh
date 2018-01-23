@@ -23,7 +23,7 @@ sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/to
 echo && \
 echo "Symlinking files and directories..." && \
 \
-sudo rm -rf ~/.config ~/.vim ~/.vimrc ~/.tmux.conf ~/.zshenv && \
+sudo rm -rf ~/.DebianCfg ~/.vim ~/.vimrc ~/.tmux.conf ~/.zshenv && \
 \
 \# Files
 ln -s $PWD/zshenv ~/.zshenv && \
@@ -31,7 +31,7 @@ ln -s $PWD/vimrc ~/.vimrc && \
 ln -s $PWD/tmux.conf ~/.tmux.conf && \
 \
 \# Dirs
-ln -s $PWD/config ~/.config && \
+ln -s $PWD/config ~/.DebianCfg && \
 ln -s $PWD/vim ~/.vim && \
 \
 echo && \

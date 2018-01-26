@@ -1,4 +1,5 @@
 echo "Hey there! Let's get set up!" && \
+mkdir -p ~/.vim/bundle/ && \
 sudo echo > /dev/null && \
 \
 echo && \

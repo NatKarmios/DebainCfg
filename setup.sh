@@ -35,4 +35,8 @@ ln -s $PWD/tmux.conf ~/.tmux.conf && \
 ln -s $PWD/config ~/.DebianCfg && \
 \
 echo && \
+echo "Installing Vim plugins..." && \
+vim +PluginInstall +qall && \
+\
+echo && \
 echo "All done!"

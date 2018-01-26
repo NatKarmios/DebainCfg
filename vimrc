@@ -1,15 +1,42 @@
-filetype off
-call pathogen#infect()
-filetype plugin indent on
-
 set nocompatible
+filetype off
+filetype plugin indent on
+syntax on
 
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
+Plugin 'svermeulen/vim-easyclip'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'mbbill/undotree'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'garbas/vim-snipmate'
+Plugin 'mtth/scratch.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'mileszs/ack.vim'
+Plugin 'ervandew/supertab'
+Plugin 'editorconfig/editorconfig-vim'
+" Plugin 'vim-scripts/YankRing'
+
+call vundle#end()
 set modelines=0
 
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
+autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2
 
 set encoding=utf-8
 set scrolloff=3
@@ -50,14 +77,22 @@ set colorcolumn=85
 set list
 set listchars=tab:▸\ ,eol:¬
 
-" nnoremap <up> <nop>
-" nnoremap <down> <nop>
-" nnoremap <left> <nop>
-" nnoremap <right> <nop>
-" inoremap <up> <nop>
-" inoremap <down> <nop>
-" inoremap <left> <nop>
-" inoremap <right> <nop>
+:set number relativenumber
+
+:augroup numbertoggle
+:  autocmd!
+:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+:augroup END
+
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
 nnoremap j gj
 nnoremap k gk
 
@@ -97,6 +132,9 @@ let g:rainbow_conf = {
 nnoremap <leader>R :RainbowToggle
 
 nnoremap <F5> :UndotreeToggle<CR>
+nnoremap <F4> :NERDTreeToggle<CR>
+nnoremap <C-PageUp> :tabp<CR>
+nnoremap <C-PageDown> :tabn<CR>
 
 set t_Co=256
 
@@ -120,4 +158,5 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers=['eslint']
 

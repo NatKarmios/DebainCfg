@@ -2,8 +2,8 @@ echo "Hey there! Let's get set up!" && \
 sudo echo > /dev/null && \
 \
 echo && \
-echo "Making sure submodules are cloned..." && \
-git submodule update --init && \
+echo "Cloning Vundle..." && \
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && \
 \
 echo && \
 echo "Installing packages from apt-get..." && \
@@ -23,7 +23,7 @@ sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/to
 echo && \
 echo "Symlinking files and directories..." && \
 \
-sudo rm -rf ~/.DebianCfg ~/.vim ~/.vimrc ~/.tmux.conf ~/.zshenv && \
+sudo rm -rf ~/.DebianCfg ~/.vimrc ~/.tmux.conf ~/.zshenv && \
 \
 \# Files
 ln -s $PWD/zshenv ~/.zshenv && \
@@ -32,7 +32,6 @@ ln -s $PWD/tmux.conf ~/.tmux.conf && \
 \
 \# Dirs
 ln -s $PWD/config ~/.DebianCfg && \
-ln -s $PWD/vim ~/.vim && \
 \
 echo && \
 echo "All done!"

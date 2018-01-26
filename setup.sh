@@ -1,6 +1,8 @@
 echo "Hey there! Let's get set up!" && \
-mkdir -p ~/.vim/bundle/ && \
 sudo echo > /dev/null && \
+\
+sudo rm -rf ~/.DebianCfg ~/.vimrc ~/.tmux.conf ~/.zshenv ~/.vim && \  
+mkdir -p ~/.vim/bundle/ && \
 \
 echo && \
 echo "Cloning Vundle..." && \
@@ -23,8 +25,6 @@ sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/to
 \
 echo && \
 echo "Symlinking files and directories..." && \
-\
-sudo rm -rf ~/.DebianCfg ~/.vimrc ~/.tmux.conf ~/.zshenv && \
 \
 \# Files
 ln -s $PWD/zshenv ~/.zshenv && \

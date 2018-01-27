@@ -133,6 +133,7 @@ nnoremap <leader>R :RainbowToggle
 
 nnoremap <F5> :UndotreeToggle<CR>
 nnoremap <F4> :NERDTreeToggle<CR>
+autocmd FileType python nnoremap <buffer> <F9> :exec '!python3' shellescape(@%, 1)<cr>
 nnoremap <C-PageUp> :tabp<CR>
 nnoremap <C-PageDown> :tabn<CR>
 

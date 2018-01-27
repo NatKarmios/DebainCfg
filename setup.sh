@@ -16,8 +16,7 @@ sudo apt-get install -y tmux zsh python python3 python-pip python3-pip wget && \
 \
 echo && \
 echo "Installing Python packages..." && \
-sudo -H pip install gcalcli && \
-sudo -H pip3 install ansicolor && \
+sudo -H pip3 install ansicolor google-api-python-client && \
 \
 echo && \
 echo "Installing oh-my-zsh..." && \

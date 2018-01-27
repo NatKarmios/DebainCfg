@@ -1,9 +1,10 @@
 import os
 from datetime import datetime, timedelta
 import re
-import subprocess
+import calendar_events
 
-AGENDA = False
+
+AGENDA = True
 
 now = datetime.now()
 nextMonth = now + timedelta(days=30)
@@ -16,11 +17,15 @@ os.chdir(dname)
 
 def center(s, width_):
     length = len(strip_escapes(s))
-    return ("."*length).center(width_).replace("."*length, s)
+    return ('.'*length).center(width_).replace('.'*length, s)
 
 def left_align(s, width_):
     length = len(strip_escapes(s))
-    return ("."*length).ljust(width_).replace("."*length, s)
+    return ('.'*length).ljust(width_).replace('.'*length, s)
+
+def right_align(s, width_):
+    length = len(strip_escapes(s))
+    return ('.'*length).rjust(width_).replace('.'*length, s)
 
 SUFFIXES = {1: 'st', 2: 'nd', 3: 'rd'}
 def ordinal(num):
@@ -37,8 +42,8 @@ def append_all(ls):
 
 
 def map_banner_line(line, bg_color, fg_color):
-    logoGroups = re.compile("(.+─ )(.+?)( ─.+)").split(line)
-    textGroups = re.compile("(.*│)(.+?)(│.*)").split(line)
+    logoGroups = re.compile('(.+─ )(.+?)( ─.+)').split(line)
+    textGroups = re.compile('(.*│)(.+?)(│.*)').split(line)
     groups = None
     if len(logoGroups)==5:
         groups = logoGroups
@@ -50,47 +55,49 @@ def map_banner_line(line, bg_color, fg_color):
     else:
         return bg_color(line)
 
-with open("banner.txt", "r+") as f:
-    for banner_line in f.read().split("\n"):
+with open('banner.txt', 'r+') as f:
+    for banner_line in f.read().split('\n'):
         messages.append(map_banner_line(banner_line, yellow, white))
 
 def get_events():
-    events_raw = subprocess.check_output(['gcalcli', 'agenda', now.strftime("%Y%m%d"), nextMonth.strftime("%Y%m%d")]).decode()
+    events_raw = calendar_events.get_events()
+    summaries = [event[0] for event in events_raw]
+    dates = [event[1] for event in events_raw]
+    maxDateLength = max(map(len, dates))
+    padded_dates = map(lambda date: right_align(date, maxDateLength), dates)
 
-    _events = list(map(lambda event: red("│  ")+event, 
-        filter(lambda event: strip_escapes(event).strip()!="" and "\x1b[0;35m" not in event, 
-            events_raw.split("\n"))))
-    _events_length = max(map(lambda event: len(strip_escapes(event)), events))
-    return _events, _events_length
+    _events = [yellow(date)+red(' │ ')+blue(summary) for summary, date in zip(summaries, padded_dates)]
+    _events_length = max(map(lambda event: len(strip_escapes(event)), _events))
+    _events_padded = [left_align(event, _events_length) for event in _events]
+    return _events_padded, _events_length
 
-
-messages.append("Hi there, {}!".format(red(os.environ["USER"].title())))
-messages.append("")
+messages.append(yellow('Hi there, ') + red(os.environ['USER'].title()) + yellow('!'))
+messages.append('')
 
 if AGENDA:
-    messages.append(green("Upcoming events:"))
+    messages.append(green('Upcoming events:'))
     events, events_length = get_events()
     for event in events:
         messages.append(left_align(event, events_length))
-    messages.append(white(""))
+    messages.append(white(''))
 
-append_all((
-  "Today is "+ blue("{} the {} of {}".format(now.strftime("%A"), ordinal(now.day), now.strftime("%B"))) + ".",
-  "It is {}.".format(blue(now.strftime("%I:%M %p"))),
-  "",
-  yellow("Happy scripting!")
-))
+append_all([
+  yellow('Today is ') + blue('{} the {} of {}'.format(now.strftime('%A'), ordinal(now.day), now.strftime('%B'))) + yellow('.'),
+  yellow('It is ') + blue(now.strftime('%I:%M %p')) + yellow('.'),
+  '',
+  green('Happy scripting!')
+])
 
 width = max(map(lambda message: len(strip_escapes(message)), messages))+6
-top_div = lambda: print("  " + blue("╒" + "═"*(width-2) + "╕"))
-bot_div = lambda: print("  " + blue("╘" + "═"*(width-2) + "╛"))
+TOP_DIV = '  ' + blue('╒' + '═'*(width-2) + '╕')
+BOT_DIV = '  ' + blue('╘' + '═'*(width-2) + '╛')
 
 print()
-top_div()
+print(TOP_DIV)
 print()
 for message in messages:
-    print("  "+center(message, width))
+    print('  '+center(message, width))
 print()
-bot_div()
+print(BOT_DIV)
 print()
 

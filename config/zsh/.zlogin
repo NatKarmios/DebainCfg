@@ -3,4 +3,6 @@ if [[ "$TERM" != "screen" ]]; then
   exit
 fi
 
-py ~/.config/startup/startup.py
+cd ~/.DebianCfg/startup/
+py startup.py
+cd - > /dev/null
